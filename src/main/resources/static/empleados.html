@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Empleados</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+        <div class="logo">DL INTERIORISMO</div>
+
+        <nav class="menu">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="clientes.html">Clientes</a>
+            <a class="active" href="empleados.html">Empleados</a>
+            <a href="proyectos.html">Proyectos</a>
+            <a href="cotizaciones.html">Cotizaciones</a>
+            <a href="facturas.html">Facturas</a>
+            <a href="pagos.html">Pagos</a>
+            <a href="tareas.html">Tareas</a>
+            <a href="reportes.html">Reportes</a>
+            <a href="index.html">Cerrar sesión</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <h1>Empleados</h1>
+        <p>Registro y gestión del personal del sistema.</p>
+
+        <section class="table-card">
+            <h2>Nuevo Empleado</h2>
+
+            <input id="nombre" placeholder="Nombre completo">
+            <input id="cargo" placeholder="Cargo">
+            <input id="telefono" placeholder="Teléfono" maxlength="9">
+            <input id="correo" placeholder="Correo electrónico">
+
+            <button class="btn-guardar" onclick="guardarEmpleado()">
+                💾 Guardar Empleado
+            </button>
+        </section>
+
+        <br>
+
+        <section class="table-card">
+            <h2>Lista de Empleados</h2>
+
+            <table class="tabla-clientes">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Cargo</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Acción</th>
+                </tr>
+                </thead>
+                <tbody id="tablaEmpleados"></tbody>
+            </table>
+        </section>
+    </main>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="js/empleados.js"></script>
+</body>
+</html>

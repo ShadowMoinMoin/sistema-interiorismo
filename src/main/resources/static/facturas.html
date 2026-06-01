@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Facturas</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+<div class="app">
+    <aside class="sidebar">
+        <div class="logo">DL INTERIORISMO</div>
+        <nav class="menu">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="clientes.html">Clientes</a>
+            <a href="empleados.html">Empleados</a>
+            <a href="proyectos.html">Proyectos</a>
+            <a href="cotizaciones.html">Cotizaciones</a>
+            <a class="active" href="facturas.html">Facturas</a>
+            <a href="pagos.html">Pagos</a>
+            <a href="tareas.html">Tareas</a>
+            <a href="reportes.html">Reportes</a>
+            <a href="index.html">Cerrar sesión</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <h1>Facturas</h1>
+        <p>Generación y control de facturas.</p>
+
+        <section class="table-card">
+            <h2>Nueva Factura</h2>
+
+            <select id="idCotizacion">
+                <option value="">Seleccione cotización</option>
+            </select>
+
+            <select id="estado">
+                <option value="Pendiente">Pendiente</option>
+                <option value="Pagado">Pagado</option>
+                <option value="Anulado">Anulado</option>
+            </select>
+
+            <button class="btn-guardar" onclick="guardarFactura()">
+                💾 Generar Factura
+            </button>
+        </section>
+
+        <br>
+
+        <section class="table-card">
+            <h2>Lista de Facturas</h2>
+
+            <table class="tabla-clientes">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Número</th>
+                    <th>Cotización</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+                </thead>
+                <tbody id="tablaFacturas"></tbody>
+            </table>
+        </section>
+    </main>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="js/facturas.js"></script>
+</body>
+</html>
