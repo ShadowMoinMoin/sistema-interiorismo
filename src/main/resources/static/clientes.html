@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Clientes</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+<div class="app">
+    <aside class="sidebar">
+        <div class="logo">DL INTERIORISMO</div>
+        <nav class="menu">
+            <a href="dashboard.html">Dashboard</a>
+            <a class="active" href="clientes.html">Clientes</a>
+            <a href="empleados.html">Empleados</a>
+            <a href="proyectos.html">Proyectos</a>
+            <a href="cotizaciones.html">Cotizaciones</a>
+            <a href="facturas.html">Facturas</a>
+            <a href="pagos.html">Pagos</a>
+            <a href="tareas.html">Tareas</a>
+            <a href="reportes.html">Reportes</a>
+            <a href="login.html">Cerrar sesión</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <h1>Clientes</h1>
+        <p>Registro y gestión de clientes.</p>
+
+        <section class="table-card">
+            <h2>Nuevo Cliente</h2>
+
+            <input id="nombre" placeholder="Nombre completo">
+            <input id="dni" placeholder="DNI" maxlength="8" pattern="[0-9]{8}">
+            <input id="telefono" placeholder="Teléfono" maxlength="9" pattern="[0-9]{9}">
+            <input id="correo" placeholder="Correo">
+            <input id="direccion" placeholder="Dirección">
+
+            <button class="btn-guardar" onclick="guardarCliente()">
+                Guardar Cliente
+            </button>
+        </section>
+
+        <br>
+
+        <section class="tabla-clientes">
+            <h2>Lista de Clientes</h2>
+            <button class="btn-primary-export" onclick="exportarClientes()">
+                📊 Exportar Excel
+            </button>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>DNI</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Dirección</th>
+                    <th>Acción</th>
+                </tr>
+                </thead>
+                <tbody id="tablaClientes"></tbody>
+            </table>
+        </section>
+    </main>
+</div>
+<div id="toast" class="toast"></div>
+<script src="js/clientes.js"></script>
+</body>
+</html>

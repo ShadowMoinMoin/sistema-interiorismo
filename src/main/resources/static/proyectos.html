@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Proyectos</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+        <div class="logo">DL INTERIORISMO</div>
+
+        <nav class="menu">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="clientes.html">Clientes</a>
+            <a href="empleados.html">Empleados</a>
+            <a class="active" href="proyectos.html">Proyectos</a>
+            <a href="cotizaciones.html">Cotizaciones</a>
+            <a href="facturas.html">Facturas</a>
+            <a href="pagos.html">Pagos</a>
+            <a href="tareas.html">Tareas</a>
+            <a href="reportes.html">Reportes</a>
+            <a href="index.html">Cerrar sesión</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <h1>Proyectos</h1>
+        <p>Registro y gestión de proyectos de interiorismo.</p>
+
+        <section class="table-card">
+            <h2>Nuevo Proyecto</h2>
+
+            <select id="idCliente">
+                <option value="">Seleccione cliente</option>
+            </select>
+
+            <select id="idTipo">
+                <option value="">Seleccione tipo de proyecto</option>
+            </select>
+            <input id="nombreProyecto" placeholder="Nombre del proyecto">
+
+            <label>Fecha inicio</label>
+            <input id="fechaInicio" type="date">
+
+            <label>Fecha fin</label>
+            <input id="fechaFin" type="date">
+
+            <select id="estado">
+                <option value="">Seleccione estado</option>
+                <option value="Pendiente">Pendiente</option>
+                <option value="En Proceso">En Proceso</option>
+                <option value="Finalizado">Finalizado</option>
+                <option value="Cancelado">Cancelado</option>
+            </select>
+
+            <input id="descripcion" placeholder="Descripción">
+
+            <button class="btn-guardar" onclick="guardarProyecto()">
+                💾 Guardar Proyecto
+            </button>
+        </section>
+
+        <br>
+
+        <section class="table-card">
+            <h2>Lista de Proyectos</h2>
+
+            <table class="tabla-clientes">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ID Cliente</th>
+                    <th>ID Tipo</th>
+                    <th>Proyecto</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+                </thead>
+                <tbody id="tablaProyectos"></tbody>
+            </table>
+        </section>
+    </main>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="js/proyectos.js"></script>
+</body>
+</html>
