@@ -2,78 +2,219 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Reportes</title>
-    <link rel="stylesheet" href="css/estilos.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes - DL Interiorismo</title>
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/reportes.css">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
 
 <div class="app">
+
     <aside class="sidebar">
-        <div class="logo">DL INTERIORISMO</div>
+
+        <div class="logo">
+            <img src="/img/img_2-removebg-preview.png"
+                 alt="DL Interiorismo">
+        </div>
+
         <nav class="menu">
-            <a href="dashboard.html">Dashboard</a>
-            <a href="clientes.html">Clientes</a>
-            <a href="empleados.html">Empleados</a>
-            <a href="proyectos.html">Proyectos</a>
-            <a href="cotizaciones.html">Cotizaciones</a>
-            <a href="facturas.html">Facturas</a>
-            <a href="pagos.html">Pagos</a>
-            <a href="tareas.html">Tareas</a>
-            <a class="active" href="reportes.html">Reportes</a>
-            <a href="index.html">Cerrar sesión</a>
+
+            <div class="menu-top">
+
+                <a href="dashboard.html">
+                    <i class="bi bi-grid"></i>
+                    Dashboard
+                </a>
+
+                <a href="clientes.html">
+                    <i class="bi bi-person"></i>
+                    Clientes
+                </a>
+
+                <a href="empleados.html">
+                    <i class="bi bi-people"></i>
+                    Empleados
+                </a>
+
+                <a href="proyectos.html">
+                    <i class="bi bi-folder"></i>
+                    Proyectos
+                </a>
+
+                <a href="cotizaciones.html">
+                    <i class="bi bi-cash-stack"></i>
+                    Cotizaciones
+                </a>
+
+                <a href="facturas.html">
+                    <i class="bi bi-file-earmark-text"></i>
+                    Facturas
+                </a>
+
+                <a href="pagos.html">
+                    <i class="bi bi-credit-card"></i>
+                    Pagos
+                </a>
+
+                <a href="tareas.html">
+                    <i class="bi bi-check2-square"></i>
+                    Tareas
+                </a>
+
+                <a class="active" href="reportes.html">
+                    <i class="bi bi-bar-chart"></i>
+                    Reportes
+                </a>
+
+            </div>
+
+            <div class="menu-bottom">
+                <a href="login.html">
+                    <i class="bi bi-box-arrow-right"></i>
+                    Cerrar sesión
+                </a>
+            </div>
+
         </nav>
+
     </aside>
 
     <main class="content">
-        <h1>Reportes</h1>
-        <p>Exportación de información del sistema en formato Excel.</p>
 
-        <section class="cards">
-            <div class="card">
-                <h3>Clientes</h3>
-                <p>Exportar clientes registrados.</p>
-                <button class="btn-primary-export" onclick="exportarReporte('clientes')">📊 Exportar Excel</button>
+        <div class="topbar">
+
+            <h1>Reportes</h1>
+
+        </div>
+
+        <section class="box">
+
+            <div class="box-header">
+                <h2>Centro de Reportes</h2>
+                <p>Exporta información del sistema en formato Excel.</p>
             </div>
 
-            <div class="card">
-                <h3>Empleados</h3>
-                <p>Exportar personal registrado.</p>
-                <button class="btn-primary-export" onclick="exportarReporte('empleados')">📊 Exportar Excel</button>
+            <div class="reportes-grid">
+
+                <div class="reporte-card">
+                    <i class="bi bi-person-lines-fill"></i>
+                    <h3>Clientes</h3>
+                    <p>Exportar clientes registrados.</p>
+
+                    <button
+                            onclick="exportarReporte('clientes')"
+                            class="btn-exportar">
+
+                        <i class="bi bi-file-earmark-excel"></i>
+                        Exportar Excel
+
+                    </button>
+                </div>
+
+                <div class="reporte-card">
+                    <i class="bi bi-people-fill"></i>
+                    <h3>Empleados</h3>
+                    <p>Exportar personal registrado.</p>
+
+                    <button
+                            onclick="exportarReporte('empleados')"
+                            class="btn-exportar">
+
+                        <i class="bi bi-file-earmark-excel"></i>
+                        Exportar Excel
+
+                    </button>
+                </div>
+
+                <div class="reporte-card">
+                    <i class="bi bi-folder-fill"></i>
+                    <h3>Proyectos</h3>
+                    <p>Exportar proyectos registrados.</p>
+
+                    <button
+                            onclick="exportarReporte('proyectos')"
+                            class="btn-exportar">
+
+                        <i class="bi bi-file-earmark-excel"></i>
+                        Exportar Excel
+
+                    </button>
+                </div>
+
+                <div class="reporte-card">
+                    <i class="bi bi-cash-stack"></i>
+                    <h3>Cotizaciones</h3>
+                    <p>Exportar cotizaciones generadas.</p>
+
+                    <button
+                            onclick="exportarReporte('cotizaciones')"
+                            class="btn-exportar">
+
+                        <i class="bi bi-file-earmark-excel"></i>
+                        Exportar Excel
+
+                    </button>
+                </div>
+
+                <div class="reporte-card">
+                    <i class="bi bi-receipt"></i>
+                    <h3>Facturas</h3>
+                    <p>Exportar facturas emitidas.</p>
+
+                    <button
+                            onclick="exportarReporte('facturas')"
+                            class="btn-exportar">
+
+                        <i class="bi bi-file-earmark-excel"></i>
+                        Exportar Excel
+
+                    </button>
+                </div>
+
+                <div class="reporte-card">
+                    <i class="bi bi-credit-card-fill"></i>
+                    <h3>Pagos</h3>
+                    <p>Exportar pagos registrados.</p>
+
+                    <button
+                            onclick="exportarReporte('pagos')"
+                            class="btn-exportar">
+
+                        <i class="bi bi-file-earmark-excel"></i>
+                        Exportar Excel
+
+                    </button>
+                </div>
+
+                <div class="reporte-card">
+                    <i class="bi bi-check2-square"></i>
+                    <h3>Tareas</h3>
+                    <p>Exportar tareas asignadas.</p>
+
+                    <button
+                            onclick="exportarReporte('tareas')"
+                            class="btn-exportar">
+
+                        <i class="bi bi-file-earmark-excel"></i>
+                        Exportar Excel
+
+                    </button>
+                </div>
+
             </div>
 
-            <div class="card">
-                <h3>Proyectos</h3>
-                <p>Exportar proyectos activos.</p>
-                <button class="btn-primary-export" onclick="exportarReporte('proyectos')">📊 Exportar Excel</button>
-            </div>
-
-            <div class="card">
-                <h3>Cotizaciones</h3>
-                <p>Exportar cotizaciones generadas.</p>
-                <button class="btn-primary-export" onclick="exportarReporte('cotizaciones')">📊 Exportar Excel</button>
-            </div>
-
-            <div class="card">
-                <h3>Facturas</h3>
-                <p>Exportar facturas emitidas.</p>
-                <button class="btn-primary-export" onclick="exportarReporte('facturas')">📊 Exportar Excel</button>
-            </div>
-
-            <div class="card">
-                <h3>Pagos</h3>
-                <p>Exportar pagos registrados.</p>
-                <button class="btn-primary-export" onclick="exportarReporte('pagos')">📊 Exportar Excel</button>
-            </div>
-
-            <div class="card">
-                <h3>Tareas</h3>
-                <p>Exportar tareas asignadas.</p>
-                <button class="btn-primary-export" onclick="exportarReporte('tareas')">📊 Exportar Excel</button>
-            </div>
         </section>
+
     </main>
+
 </div>
 
 <script src="js/reportes.js"></script>
+
 </body>
 </html>

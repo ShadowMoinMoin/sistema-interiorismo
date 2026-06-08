@@ -14,9 +14,13 @@ public class Proyecto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idProyecto;
 
-    private Integer idCliente;
+    @ManyToOne
+    @JoinColumn(name = "id_cliente")
+    private Cliente cliente;
 
-    private Integer idTipo;
+    @ManyToOne
+    @JoinColumn(name = "id_tipo")
+    private TipoProyecto tipoProyecto;
 
     private String nombreProyecto;
 

@@ -1,6 +1,7 @@
 const API_CLIENTES = "/api/clientes";
 
 document.addEventListener("DOMContentLoaded", () => {
+
     listarClientes();
 
     document.getElementById("dni").addEventListener("input", function () {
@@ -10,29 +11,52 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("telefono").addEventListener("input", function () {
         this.value = this.value.replace(/\D/g, "").slice(0, 9);
     });
+
 });
 
 function guardarCliente() {
+
     const cliente = {
-        nombre: document.getElementById("nombre").value,
-        dni: document.getElementById("dni").value,
-        telefono: document.getElementById("telefono").value,
-        correo: document.getElementById("correo").value,
-        direccion: document.getElementById("direccion").value
+        nombre: document.getElementById("nombre").value.trim(),
+        dni: document.getElementById("dni").value.trim(),
+        telefono: document.getElementById("telefono").value.trim(),
+        correo: document.getElementById("correo").value.trim(),
+        direccion: document.getElementById("direccion").value.trim()
     };
 
-    if (cliente.nombre === "" || cliente.dni === "" || cliente.telefono === "") {
-        alert("Complete los campos obligatorios");
+    // VALIDACIONES
+
+    if (
+        cliente.nombre === "" ||
+        cliente.dni === "" ||
+        cliente.telefono === ""
+    ) {
+
+        mostrarToast(
+            "Complete los campos obligatorios",
+            "warning"
+        );
+
         return;
     }
 
     if (cliente.dni.length !== 8) {
-        mostrarToast("El DNI debe tener exactamente 8 dígitos", "warning");
+
+        mostrarToast(
+            "El DNI debe tener exactamente 8 dígitos",
+            "warning"
+        );
+
         return;
     }
 
     if (cliente.telefono.length !== 9) {
-        mostrarToast("El teléfono debe tener exactamente 9 dígitos", "warning");
+
+        mostrarToast(
+            "El teléfono debe tener exactamente 9 dígitos",
+            "warning"
+        );
+
         return;
     }
 
@@ -43,76 +67,170 @@ function guardarCliente() {
         },
         body: JSON.stringify(cliente)
     })
+
         .then(response => {
+
             if (!response.ok) {
-                throw new mostrarToast("No se pudo guardar el cliente", "error");
+                throw new Error(
+                    "Error HTTP " + response.status
+                );
             }
-            return response.json();
+
+            return response.text();
         })
+
         .then(() => {
-            mostrarToast("Cliente registrado correctamente", "success");
+
+            mostrarToast(
+                "Cliente registrado correctamente",
+                "success"
+            );
+
             limpiarFormulario();
+
             listarClientes();
+
         })
+
         .catch(error => {
-            console.error("Error:", error);
-            alert("No se pudo guardar el cliente");
+
+            console.error(error);
+
+            mostrarToast(
+                "No se pudo guardar el cliente",
+                "error"
+            );
+
         });
 }
 
 function listarClientes() {
+
     fetch(API_CLIENTES)
+
         .then(response => response.json())
+
         .then(data => {
-            const tabla = document.getElementById("tablaClientes");
+
+            const tabla =
+                document.getElementById("tablaClientes");
+
             tabla.innerHTML = "";
 
             data.forEach(cliente => {
+
                 tabla.innerHTML += `
                     <tr>
-                        <td>${cliente.idCliente}</td>
                         <td>${cliente.nombre}</td>
                         <td>${cliente.dni}</td>
                         <td>${cliente.telefono}</td>
                         <td>${cliente.correo || ""}</td>
                         <td>${cliente.direccion || ""}</td>
                         <td>
-                            <button onclick="eliminarCliente(${cliente.idCliente})">Eliminar</button>
+                            <button
+                                class="btn-eliminar"
+                                onclick="eliminarCliente(${cliente.idCliente})">
+                                Eliminar
+                            </button>
                         </td>
                     </tr>
                 `;
             });
-        })
-        .catch(error => console.error("Error al listar:", error));
-}
 
-function eliminarCliente(id) {
-    fetch(`${API_CLIENTES}/${id}`, {
-        method: "DELETE"
-    })
-        .then(() => {
-            alert("Cliente eliminado");
-            listarClientes();
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Error al listar clientes:",
+                error
+            );
+
+            mostrarToast(
+                "No se pudieron cargar los clientes",
+                "error"
+            );
+
         });
 }
 
+function eliminarCliente(id) {
+
+    Swal.fire({
+        title: "¿Eliminar cliente?",
+        text: "Esta acción no se puede deshacer",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#dc2626",
+        cancelButtonColor: "#6b7280",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    })
+
+        .then((result) => {
+
+            if (result.isConfirmed) {
+
+                fetch(`${API_CLIENTES}/${id}`, {
+                    method: "DELETE"
+                })
+
+                    .then(() => {
+
+                        mostrarToast(
+                            "Cliente eliminado correctamente",
+                            "success"
+                        );
+
+                        listarClientes();
+
+                    })
+
+                    .catch(() => {
+
+                        mostrarToast(
+                            "No se pudo eliminar el cliente",
+                            "error"
+                        );
+
+                    });
+
+            }
+
+        });
+
+}
+
 function limpiarFormulario() {
+
     document.getElementById("nombre").value = "";
     document.getElementById("dni").value = "";
     document.getElementById("telefono").value = "";
     document.getElementById("correo").value = "";
     document.getElementById("direccion").value = "";
+
 }
+
 function exportarClientes() {
-    window.location.href = "/api/reportes/clientes-excel";
+
+    window.location.href =
+        "/api/reportes/clientes-excel";
+
 }
-function mostrarToast(mensaje, tipo = "success") {
-    const toast = document.getElementById("toast");
 
-    toast.textContent = mensaje;
-    toast.className = "toast show " + tipo;
+function mostrarToast(
+    mensaje,
+    icono = "success"
+) {
 
-    setTimeout(() => {
-        toast.className = "toast";
-    }, 3000);
+    Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: icono,
+        title: mensaje,
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true
+    });
+
 }

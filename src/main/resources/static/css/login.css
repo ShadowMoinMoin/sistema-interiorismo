@@ -1,0 +1,226 @@
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:#f8fafc;
+}
+
+/* LOGIN */
+
+.login-body{
+    display:flex;
+    height:100vh;
+    overflow:hidden;
+}
+
+/* PANEL IZQUIERDO */
+
+.login-left{
+    width:55%;
+    position:relative;
+    overflow:hidden;
+}
+
+.slider{
+    position:absolute;
+    inset:0;
+    z-index:1;
+}
+
+.slide{
+    position:absolute;
+    inset:0;
+    background-size:cover;
+    background-position:center;
+    opacity:0;
+    transition:opacity 1.2s ease;
+}
+
+.slide.active{
+    opacity:1;
+}
+
+/* TEXTO SOBRE IMAGEN */
+
+.login-info{
+    position:absolute;
+    bottom:60px;
+    left:60px;
+    z-index:10;
+    color:white;
+    max-width:600px;
+}
+
+.login-info h1{
+    margin:0 0 15px;
+    font-size:68px;
+    font-weight:800;
+    line-height:1.1;
+    color:white;
+    text-shadow:
+            0 4px 20px rgba(0,0,0,.7),
+            0 0 40px rgba(0,0,0,.4);
+}
+
+.login-info p{
+    margin:0 0 30px;
+    font-size:24px;
+    line-height:1.5;
+    color:white;
+    text-shadow:
+            0 2px 10px rgba(0,0,0,.8);
+}
+
+/* ESTADISTICAS */
+
+.stats{
+    display:flex;
+    gap:20px;
+}
+
+.stat-card{
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(10px);
+    border-radius:16px;
+    padding:20px;
+    min-width:160px;
+}
+
+.stat-card h2{
+    margin:0;
+    font-size:32px;
+    color:white;
+}
+
+.stat-card span{
+    color:white;
+    font-size:14px;
+}
+
+/* PANEL DERECHO */
+
+.login-right{
+    width:45%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f8fafc;
+}
+
+.login-card{
+    width:420px;
+    background:white;
+    padding:50px;
+    border-radius:24px;
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+    animation:fadeIn .8s ease;
+}
+
+.login-logo{
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.login-logo img{
+    width:140px;
+}
+
+.login-card h2{
+    text-align:center;
+    margin-bottom:10px;
+    color:#0f172a;
+}
+
+.subtitle{
+    text-align:center;
+    color:#64748b;
+    margin-bottom:30px;
+}
+
+.input-group{
+    position:relative;
+    margin-bottom:18px;
+}
+
+.input-group i{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    color:#64748b;
+}
+
+.input-group i:first-child{
+    left:15px;
+}
+
+.input-group input{
+    width:100%;
+    box-sizing:border-box;
+    padding:14px 45px;
+    border:1px solid #cbd5e1;
+    border-radius:12px;
+    outline:none;
+    transition:.3s;
+}
+
+.input-group input:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,.15);
+}
+
+#togglePassword{
+    right:15px;
+    cursor:pointer;
+}
+
+.btn-primary{
+    width:100%;
+    border:none;
+    border-radius:12px;
+    padding:14px;
+    font-size:15px;
+    font-weight:700;
+    background:linear-gradient(
+            135deg,
+            #2563eb,
+            #1d4ed8
+    );
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(37,99,235,.25);
+}
+
+/* ANIMACION */
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .login-left{
+        display:none;
+    }
+
+    .login-right{
+        width:100%;
+    }
+
+    .login-card{
+        width:90%;
+        max-width:420px;
+    }
+}

@@ -142,49 +142,148 @@ function guardarCotizacion() {
             listarCotizaciones();
         })
         .catch(() => mostrarToast("No se pudo guardar la cotización", "error"));
+    if (
+        cotizacion.idProyecto === "" ||
+        cotizacion.metraje === ""
+    ) {
+
+        mostrarToast(
+            "Seleccione proyecto e ingrese metraje",
+            "warning"
+        );
+
+        return;
+    }
+
+    if (Number(cotizacion.metraje) <= 0) {
+
+        mostrarToast(
+            "El metraje debe ser mayor a 0",
+            "warning"
+        );
+
+        return;
+    }
 }
 
 function listarCotizaciones() {
-    fetch(API_COTIZACIONES)
-        .then(r => r.json())
-        .then(data => {
-            const tabla = document.getElementById("tablaCotizaciones");
+
+    Promise.all([
+        fetch(API_COTIZACIONES).then(r => r.json()),
+        fetch(API_PROYECTOS).then(r => r.json())
+    ])
+
+        .then(([cotizaciones, proyectos]) => {
+
+            const tabla =
+                document.getElementById("tablaCotizaciones");
+
             tabla.innerHTML = "";
 
-            data.forEach(c => {
+            cotizaciones.forEach(c => {
+
+                const proyecto = proyectos.find(
+                    p => p.idProyecto == c.idProyecto
+                );
+
                 tabla.innerHTML += `
-                    <tr>
-                        <td>${c.idCotizacion}</td>
-                        <td>${c.idProyecto}</td>
-                        <td>${c.fecha || ""}</td>
-                        <td>${c.metraje}</td>
-                        <td>S/ ${Number(c.subtotal).toFixed(2)}</td>
-                        <td>S/ ${Number(c.ganancia).toFixed(2)}</td>
-                        <td>S/ ${Number(c.total).toFixed(2)}</td>
-                        <td>${c.estado || ""}</td>
-                        <td>
-                            <button onclick="eliminarCotizacion(${c.idCotizacion})">Eliminar</button>
-                        </td>
-                    </tr>
-                `;
+        <tr>
+
+            <td>
+                ${proyecto ? proyecto.nombreProyecto : '-'}
+            </td>
+
+            <td>
+                ${c.fecha || ''}
+            </td>
+
+            <td>
+                ${c.metraje}
+            </td>
+
+            <td>
+                S/ ${Number(c.total).toFixed(2)}
+            </td>
+
+            <td>
+    <span class="estado estado-${c.estado.toLowerCase()}">
+        ${c.estado}
+    </span>
+</td>
+
+            <td>
+                <button
+                    class="btn-eliminar"
+                    onclick="eliminarCotizacion(${c.idCotizacion})">
+                    Eliminar
+                </button>
+            </td>
+
+        </tr>
+    `;
+
             });
+
         });
+
 }
 
 function eliminarCotizacion(id) {
-    fetch(`${API_COTIZACIONES}/${id}`, {method: "DELETE"})
-        .then(() => {
-            mostrarToast("Cotización eliminada", "success");
-            listarCotizaciones();
+
+    Swal.fire({
+        title: "¿Eliminar cotización?",
+        text: "Esta acción no se puede deshacer",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#dc2626",
+        cancelButtonColor: "#6b7280",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    })
+
+        .then((result) => {
+
+            if (result.isConfirmed) {
+
+                fetch(`${API_COTIZACIONES}/${id}`, {
+                    method: "DELETE"
+                })
+
+                    .then(() => {
+
+                        mostrarToast(
+                            "Cotización eliminada correctamente",
+                            "success"
+                        );
+
+                        listarCotizaciones();
+
+                    })
+
+                    .catch(() => {
+
+                        mostrarToast(
+                            "No se pudo eliminar la cotización",
+                            "error"
+                        );
+
+                    });
+
+            }
+
         });
+
 }
+function mostrarToast(mensaje, icono = "success") {
 
-function mostrarToast(mensaje, tipo = "success") {
-    const toast = document.getElementById("toast");
-    toast.textContent = mensaje;
-    toast.className = "toast show " + tipo;
+    Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: icono,
+        title: mensaje,
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true
+    });
 
-    setTimeout(() => {
-        toast.className = "toast";
-    }, 3000);
 }

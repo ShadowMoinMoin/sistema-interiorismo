@@ -1,147 +1,249 @@
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: #f5f7fa;
-    color: #111827;
+/* ================= RESET ================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-.login-body {
-    display: flex;
-    height: 100vh;
+body{
+    font-family:'Inter','Segoe UI',sans-serif;
+    background:#f8fafc;
+    color:#1e293b;
+    height:100vh;
+    overflow:hidden;
 }
 
-.login-left {
-    width: 50%;
-    background: url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c") center/cover;
+/* ================= APP ================= */
+
+.app{
+    display:flex;
+    width:100%;
+    height:100vh;
 }
 
-.login-right {
-    width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: white;
+/* SIDEBAR */
+
+.sidebar{
+    width:200px;
+    height:100vh;
+    background:linear-gradient(180deg,#07152d,#020817);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:20px 12px;
+    box-sizing:border-box;
+}
+/* LOGO */
+
+.logo{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:120px;
+    margin-bottom:25px;
 }
 
-.login-card {
-    width: 380px;
+.logo img{
+    width:190px;
+    height:190px;
+    object-fit:contain;
+}
+.logo{
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    padding-bottom:20px;
+    margin-bottom:30px;
 }
 
-.login-card h1 {
-    font-size: 34px;
-    color: #0f172a;
+/* MENU */
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    height:100%;
 }
 
-.login-card input {
-    width: 100%;
-    padding: 14px;
-    margin: 10px 0 20px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
+.menu-top{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
 }
 
-.btn-primary {
-    width: 100%;
-    padding: 14px;
-    background: #0066cc;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    color:#e2e8f0;
+    text-decoration:none;
+
+    padding:12px 14px;
+    border-radius:10px;
+
+    font-size:13px;
+    font-weight:400;
+
+    transition:all .25s ease;
 }
 
-.app {
-    display: flex;
-    height: 100vh;
+.menu a:hover{
+    background:rgba(59,130,246,.15);
+    color:white;
 }
 
-.sidebar {
-    width: 250px;
-    background: #0f172a;
-    color: white;
-    padding: 25px 20px;
+.menu a.active{
+    background:#2563eb;
+    color:white;
+    box-shadow:0 0 20px rgba(37,99,235,.45);
 }
 
-.logo {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 40px;
+/* BLOQUE SUPERIOR */
+
+.menu-top{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
 }
 
-.menu a {
-    display: block;
-    color: white;
-    text-decoration: none;
-    padding: 14px;
-    border-radius: 8px;
-    margin-bottom: 8px;
+/* CERRAR SESION */
+
+.menu-bottom{
+    margin-top:auto;
+    padding-top:20px;
 }
 
-.menu a:hover,
-.menu a.active {
-    background: #0066cc;
+.menu-bottom a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    color:#e2e8f0;
+    text-decoration:none;
+
+    padding:12px 14px;
+    border-radius:10px;
+
+    font-size:13px;
+    font-weight:400;
 }
 
-.content {
-    flex: 1;
-    padding: 30px;
-    overflow-y: auto;
+.menu-bottom a:hover{
+    background:rgba(239,68,68,.15);
+    color:#ef4444;
 }
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin: 25px 0;
+/* ================= TOPBAR ================= */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:25px;
 }
 
-.card {
-    background: white;
-    border-radius: 12px;
-    padding: 22px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+.topbar h1{
+    font-size:18px;
+    font-weight:700;
+    color:#0f172a;
 }
 
-.card h3 {
-    margin: 0;
-    color: #475569;
+/* ================= BOX GENERAL ================= */
+
+.box{
+    background:white;
+
+    border-radius:18px;
+
+    padding:20px;
+
+    box-shadow:
+            0 4px 15px
+            rgba(0,0,0,.05);
 }
 
-.card .number {
-    font-size: 32px;
-    font-weight: bold;
-    margin-top: 10px;
+/* ================= TABLAS ================= */
+
+table{
+    width:100%;
+    border-collapse:collapse;
 }
 
-.table-card {
-    background: white;
-    border-radius: 12px;
-    padding: 22px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+th{
+    text-align:left;
+
+    background:#f1f5f9;
+
+    color:#334155;
+
+    padding:12px;
+
+    font-size:14px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+td{
+    padding:12px;
+
+    border-bottom:
+            1px solid #e2e8f0;
 }
 
-th {
-    background: #0066cc;
-    color: white;
-    padding: 12px;
+tr:hover td{
+    background:#f8fafc;
 }
 
-td {
-    padding: 12px;
-    border-bottom: 1px solid #e5e7eb;
+/* ================= BOTONES ================= */
+
+.btn{
+    padding:10px 15px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
 }
 
-.btn-green {
-    background: #27ae60;
-    color: white;
-    padding: 12px 18px;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
+.btn-primary{
+    background:#2563eb;
+    color:white;
+}
+
+.btn-success{
+    background:#16a34a;
+    color:white;
+}
+
+.btn-danger{
+    background:#dc2626;
+    color:white;
+}
+
+/* ================= INPUTS ================= */
+
+input,
+select{
+    padding:10px;
+    border-radius:10px;
+    border:1px solid #cbd5e1;
+}
+
+input:focus,
+select:focus{
+    outline:none;
+
+    border-color:#3b82f6;
+
+    box-shadow:
+            0 0 0 3px
+            rgba(59,130,246,.2);
+}
+.menu i{
+    font-size:16px;
+    width:18px;
+}
+
+.usuario i{
+    margin-right:8px;
+    color:#2563eb;
 }

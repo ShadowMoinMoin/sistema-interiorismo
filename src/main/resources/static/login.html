@@ -2,28 +2,112 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - DL Interiorismo</title>
-    <link rel="stylesheet" href="css/estilos.css">
+
+    <link rel="stylesheet" href="css/login.css">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body class="login-body">
 
-<div class="login-left"></div>
+<!-- LADO IZQUIERDO -->
+<div class="login-left">
 
-<div class="login-right">
-    <div class="login-card">
-        <h1>DL INTERIORISMO</h1>
-        <p>Diseño y funcionalidad</p>
+    <div class="slider">
 
-        <label>Usuario</label>
-        <input type="text" id="usuario" placeholder="Ingresa tu usuario">
+        <div class="slide active"
+             style="background-image:url('/img/interior1.png')"></div>
 
-        <label>Contraseña</label>
-        <input type="password" id="password" placeholder="Ingresa tu contraseña">
+        <div class="slide"
+             style="background-image:url('/img/interior2.png')"></div>
 
-        <button class="btn-primary" onclick="login()">INGRESAR</button>
+        <div class="slide"
+             style="background-image:url('/img/interior3.png')"></div>
+
     </div>
+
+    <div class="login-info">
+        <h1>DL INTERIORISMO</h1>
+        <p>Diseño, funcionalidad y elegancia para cada espacio.</p>
+    </div>
+
 </div>
 
+<!-- LADO DERECHO -->
+<div class="login-right">
+
+    <div class="login-card">
+
+        <div class="login-logo">
+            <img src="/img/img_2-removebg-preview.png"
+                 alt="DL Interiorismo">
+        </div>
+
+        <h2>Bienvenido</h2>
+
+        <p class="subtitle">
+            Ingrese sus credenciales para acceder
+            al sistema.
+        </p>
+
+        <div class="input-group">
+
+            <i class="bi bi-person"></i>
+
+            <input
+                    type="text"
+                    id="usuario"
+                    placeholder="Usuario">
+
+        </div>
+
+        <div class="input-group">
+
+            <i class="bi bi-lock"></i>
+
+            <input
+                    type="password"
+                    id="password"
+                    placeholder="Contraseña">
+
+            <i class="bi bi-eye"
+               id="togglePassword"></i>
+
+        </div>
+
+        <button
+                class="btn-primary"
+                onclick="login()">
+
+            <i class="bi bi-box-arrow-in-right"></i>
+            Ingresar
+
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+    document
+        .getElementById("togglePassword")
+        .addEventListener("click", () => {
+
+            const pass =
+                document.getElementById("password");
+
+            pass.type =
+                pass.type === "password"
+                    ? "text"
+                    : "password";
+        });
+
+</script>
+
 <script src="js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

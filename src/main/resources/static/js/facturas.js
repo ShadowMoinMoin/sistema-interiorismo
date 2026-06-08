@@ -52,44 +52,125 @@ function guardarFactura() {
 }
 
 function listarFacturas() {
+
     fetch(API_FACTURAS)
         .then(r => r.json())
+
         .then(data => {
-            const tabla = document.getElementById("tablaFacturas");
+
+            const tabla =
+                document.getElementById("tablaFacturas");
+
             tabla.innerHTML = "";
 
             data.forEach(f => {
+
                 tabla.innerHTML += `
                     <tr>
-                        <td>${f.idFactura}</td>
+
                         <td>${f.numeroFactura}</td>
-                        <td>${f.idCotizacion}</td>
+
                         <td>${f.fecha || ""}</td>
-                        <td>S/ ${Number(f.total).toFixed(2)}</td>
-                        <td>${f.estado}</td>
+
                         <td>
-                            <button onclick="eliminarFactura(${f.idFactura})">Eliminar</button>
+                            S/ ${Number(f.total).toFixed(2)}
                         </td>
+
+                        <td>
+                            <span class="estado estado-${f.estado.toLowerCase()}">
+                                ${f.estado}
+                            </span>
+                        </td>
+
+                        <td>
+                            <button
+                                class="btn-eliminar"
+                                onclick="eliminarFactura(${f.idFactura})">
+                                Eliminar
+                            </button>
+                        </td>
+
                     </tr>
                 `;
             });
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Error al listar facturas:",
+                error
+            );
+
+            mostrarToast(
+                "No se pudieron cargar las facturas",
+                "error"
+            );
+
         });
+
 }
 
 function eliminarFactura(id) {
-    fetch(`${API_FACTURAS}/${id}`, {method: "DELETE"})
-        .then(() => {
-            mostrarToast("Factura eliminada", "success");
-            listarFacturas();
+
+    Swal.fire({
+        title: "¿Eliminar factura?",
+        text: "Esta acción no se puede deshacer",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#dc2626",
+        cancelButtonColor: "#6b7280",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    })
+
+        .then((result) => {
+
+            if (result.isConfirmed) {
+
+                fetch(`${API_FACTURAS}/${id}`, {
+                    method: "DELETE"
+                })
+
+                    .then(() => {
+
+                        mostrarToast(
+                            "Factura eliminada correctamente",
+                            "success"
+                        );
+
+                        listarFacturas();
+
+                    })
+
+                    .catch(() => {
+
+                        mostrarToast(
+                            "No se pudo eliminar la factura",
+                            "error"
+                        );
+
+                    });
+
+            }
+
         });
+
 }
+function mostrarToast(
+    mensaje,
+    icono = "success"
+) {
 
-function mostrarToast(mensaje, tipo = "success") {
-    const toast = document.getElementById("toast");
-    toast.textContent = mensaje;
-    toast.className = "toast show " + tipo;
+    Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: icono,
+        title: mensaje,
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true
+    });
 
-    setTimeout(() => {
-        toast.className = "toast";
-    }, 3000);
 }

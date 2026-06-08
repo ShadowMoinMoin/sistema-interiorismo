@@ -1,6 +1,6 @@
 package com.dlinteriorismo.sistema_interiorismo.service;
 
-import com.dlinteriorismo.sistema_interiorismo.model.Cotizacion;
+import  com.dlinteriorismo.sistema_interiorismo.model.Cotizacion;
 import com.dlinteriorismo.sistema_interiorismo.model.Factura;
 import com.dlinteriorismo.sistema_interiorismo.repository.CotizacionRepository;
 import com.dlinteriorismo.sistema_interiorismo.repository.FacturaRepository;
