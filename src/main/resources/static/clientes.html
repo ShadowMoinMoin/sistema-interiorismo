@@ -2,57 +2,135 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Clientes</title>
-    <link rel="stylesheet" href="css/estilos.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes - DL Interiorismo</title>
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/clientes.css">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
 
 <div class="app">
+
+    <!-- SIDEBAR -->
     <aside class="sidebar">
-        <div class="logo">DL INTERIORISMO</div>
+
+        <div class="logo">
+            <img src="/img/img_2-removebg-preview.png" alt="DL Interiorismo">
+        </div>
+
         <nav class="menu">
-            <a href="dashboard.html">Dashboard</a>
-            <a class="active" href="clientes.html">Clientes</a>
-            <a href="empleados.html">Empleados</a>
-            <a href="proyectos.html">Proyectos</a>
-            <a href="cotizaciones.html">Cotizaciones</a>
-            <a href="facturas.html">Facturas</a>
-            <a href="pagos.html">Pagos</a>
-            <a href="tareas.html">Tareas</a>
-            <a href="reportes.html">Reportes</a>
-            <a href="login.html">Cerrar sesión</a>
+
+            <div class="menu-top">
+
+                <a href="dashboard.html">
+                    <i class="bi bi-grid"></i>
+                    Dashboard
+                </a>
+
+                <a class="active" href="clientes.html">
+                    <i class="bi bi-person"></i>
+                    Clientes
+                </a>
+
+                <a href="empleados.html">
+                    <i class="bi bi-people"></i>
+                    Empleados
+                </a>
+
+                <a href="proyectos.html">
+                    <i class="bi bi-folder"></i>
+                    Proyectos
+                </a>
+
+                <a href="cotizaciones.html">
+                    <i class="bi bi-cash-stack"></i>
+                    Cotizaciones
+                </a>
+
+                <a href="facturas.html">
+                    <i class="bi bi-file-earmark-text"></i>
+                    Facturas
+                </a>
+
+                <a href="pagos.html">
+                    <i class="bi bi-credit-card"></i>
+                    Pagos
+                </a>
+
+                <a href="tareas.html">
+                    <i class="bi bi-check2-square"></i>
+                    Tareas
+                </a>
+
+                <a href="reportes.html">
+                    <i class="bi bi-bar-chart"></i>
+                    Reportes
+                </a>
+
+            </div>
+
+            <div class="menu-bottom">
+                <a href="login.html">
+                    <i class="bi bi-box-arrow-right"></i>
+                    Cerrar sesión
+                </a>
+            </div>
+
         </nav>
+
     </aside>
 
+    <!-- CONTENIDO -->
     <main class="content">
-        <h1>Clientes</h1>
-        <p>Registro y gestión de clientes.</p>
 
-        <section class="table-card">
-            <h2>Nuevo Cliente</h2>
+        <div class="topbar">
+            <h1>Clientes</h1>
+        </div>
 
-            <input id="nombre" placeholder="Nombre completo">
-            <input id="dni" placeholder="DNI" maxlength="8" pattern="[0-9]{8}">
-            <input id="telefono" placeholder="Teléfono" maxlength="9" pattern="[0-9]{9}">
-            <input id="correo" placeholder="Correo">
-            <input id="direccion" placeholder="Dirección">
+        <!-- FORMULARIO -->
+        <section class="box">
 
-            <button class="btn-guardar" onclick="guardarCliente()">
-                Guardar Cliente
-            </button>
+            <div class="box-header">
+                <h2>Nuevo Cliente</h2>
+            </div>
+
+            <div class="form-grid">
+
+                <input id="nombre" placeholder="Nombre completo">
+
+                <input id="dni" placeholder="DNI">
+
+                <input id="telefono" placeholder="Teléfono">
+
+                <input id="correo" placeholder="Correo">
+
+                <input id="direccion" placeholder="Dirección">
+
+                <button class="btn btn-primary"
+                        onclick="guardarCliente()">
+                    <i class="bi bi-save"></i>
+                    Guardar Cliente
+                </button>
+
+            </div>
+
         </section>
 
-        <br>
+        <!-- TABLA -->
+        <section class="box tabla-box">
 
-        <section class="tabla-clientes">
-            <h2>Lista de Clientes</h2>
-            <button class="btn-primary-export" onclick="exportarClientes()">
-                📊 Exportar Excel
-            </button>
+            <div class="box-header">
+                <h2>Lista de Clientes</h2>
+            </div>
+
             <table>
+
                 <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Nombre</th>
                     <th>DNI</th>
                     <th>Teléfono</th>
@@ -61,12 +139,19 @@
                     <th>Acción</th>
                 </tr>
                 </thead>
+
                 <tbody id="tablaClientes"></tbody>
+
             </table>
+
         </section>
+
     </main>
+
 </div>
 <div id="toast" class="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="js/clientes.js"></script>
+
 </body>
 </html>

@@ -71,39 +71,157 @@ function guardarTarea() {
             listarTareas();
         })
         .catch(() => mostrarToast("No se pudo registrar la tarea", "error"));
+    if (tarea.fechaLimite === "") {
+
+        mostrarToast(
+            "Seleccione la fecha límite",
+            "warning"
+        );
+
+        return;
+    }
 }
 
 function listarTareas() {
-    fetch(API_TAREAS)
-        .then(r => r.json())
-        .then(data => {
-            const tabla = document.getElementById("tablaTareas");
+
+    Promise.all([
+        fetch(API_TAREAS).then(r => r.json()),
+        fetch(API_PROYECTOS).then(r => r.json()),
+        fetch(API_EMPLEADOS).then(r => r.json())
+    ])
+
+        .then(([tareas, proyectos, empleados]) => {
+
+            const tabla =
+                document.getElementById("tablaTareas");
+
             tabla.innerHTML = "";
 
-            data.forEach(t => {
+            tareas.forEach(t => {
+
+                const proyecto =
+                    proyectos.find(
+                        p => p.idProyecto == t.idProyecto
+                    );
+
+                const empleado =
+                    empleados.find(
+                        e => e.idEmpleado == t.idEmpleado
+                    );
+
                 tabla.innerHTML += `
-                    <tr>
-                        <td>${t.idTarea}</td>
-                        <td>${t.idProyecto}</td>
-                        <td>${t.idEmpleado}</td>
-                        <td>${t.descripcion}</td>
-                        <td>${t.fechaLimite || ""}</td>
-                        <td>${t.estado || ""}</td>
-                        <td>
-                            <button onclick="eliminarTarea(${t.idTarea})">Eliminar</button>
-                        </td>
-                    </tr>
-                `;
+
+                <tr>
+
+                    <td>
+                        ${proyecto
+                    ? proyecto.nombreProyecto
+                    : '-'}
+                    </td>
+
+                    <td>
+                        ${empleado
+                    ? empleado.nombre
+                    : '-'}
+                    </td>
+
+                    <td>
+                        ${t.descripcion}
+                    </td>
+
+                    <td>
+                        ${t.fechaLimite || ''}
+                    </td>
+
+                    <td>
+
+                        <span class="estado estado-${t.estado.toLowerCase().replace(' ','-')}">
+
+                            ${t.estado}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn-eliminar"
+                            onclick="eliminarTarea(${t.idTarea})">
+
+                            Eliminar
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
             });
+
+        })
+        .catch(error => {
+
+            console.error(
+                "Error al listar tareas:",
+                error
+            );
+
+            mostrarToast(
+                "No se pudieron cargar las tareas",
+                "error"
+            );
+
         });
+
 }
 
 function eliminarTarea(id) {
-    fetch(`${API_TAREAS}/${id}`, {method: "DELETE"})
-        .then(() => {
-            mostrarToast("Tarea eliminada", "success");
-            listarTareas();
+
+    Swal.fire({
+        title: "¿Eliminar tarea?",
+        text: "Esta acción no se puede deshacer",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#dc2626",
+        cancelButtonColor: "#6b7280",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    })
+
+        .then((result) => {
+
+            if (result.isConfirmed) {
+
+                fetch(`${API_TAREAS}/${id}`, {
+                    method: "DELETE"
+                })
+
+                    .then(() => {
+
+                        mostrarToast(
+                            "Tarea eliminada correctamente",
+                            "success"
+                        );
+
+                        listarTareas();
+
+                    })
+
+                    .catch(() => {
+
+                        mostrarToast(
+                            "No se pudo eliminar la tarea",
+                            "error"
+                        );
+
+                    });
+
+            }
+
         });
+
 }
 
 function limpiarFormulario() {
@@ -114,12 +232,19 @@ function limpiarFormulario() {
     document.getElementById("estado").value = "Pendiente";
 }
 
-function mostrarToast(mensaje, tipo = "success") {
-    const toast = document.getElementById("toast");
-    toast.textContent = mensaje;
-    toast.className = "toast show " + tipo;
+function mostrarToast(
+    mensaje,
+    icono = "success"
+) {
 
-    setTimeout(() => {
-        toast.className = "toast";
-    }, 3000);
+    Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: icono,
+        title: mensaje,
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true
+    });
+
 }

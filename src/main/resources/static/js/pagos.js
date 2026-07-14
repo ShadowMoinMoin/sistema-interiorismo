@@ -63,36 +63,129 @@ function guardarPago() {
 }
 
 function listarPagos() {
-    fetch(API_PAGOS)
-        .then(r => r.json())
-        .then(data => {
-            const tabla = document.getElementById("tablaPagos");
+
+    Promise.all([
+        fetch(API_PAGOS).then(r => r.json()),
+        fetch(API_FACTURAS).then(r => r.json())
+    ])
+
+        .then(([pagos, facturas]) => {
+
+            const tabla =
+                document.getElementById("tablaPagos");
+
             tabla.innerHTML = "";
 
-            data.forEach(p => {
+            pagos.forEach(p => {
+
+                const factura =
+                    facturas.find(
+                        f => f.idFactura == p.idFactura
+                    );
+
                 tabla.innerHTML += `
-                    <tr>
-                        <td>${p.idPago}</td>
-                        <td>${p.idFactura}</td>
-                        <td>${p.fechaPago || ""}</td>
-                        <td>${p.metodoPago}</td>
-                        <td>S/ ${Number(p.monto).toFixed(2)}</td>
-                        <td>${p.referencia || ""}</td>
-                        <td>
-                            <button onclick="eliminarPago(${p.idPago})">Eliminar</button>
-                        </td>
-                    </tr>
-                `;
+                <tr>
+
+                    <td>
+                        ${factura
+                    ? factura.numeroFactura
+                    : '-'}
+                    </td>
+
+                    <td>
+                        ${p.fechaPago || ''}
+                    </td>
+
+                    <td>
+                        ${p.metodoPago}
+                    </td>
+
+                    <td>
+                        S/ ${Number(p.monto).toFixed(2)}
+                    </td>
+
+                    <td>
+                        ${p.referencia || '-'}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn-eliminar"
+                            onclick="eliminarPago(${p.idPago})">
+
+                            Eliminar
+
+                        </button>
+
+                    </td>
+
+                </tr>
+            `;
             });
-        });
+
+        })
+.catch(error => {
+
+        console.error(
+            "Error al listar pagos:",
+            error
+        );
+
+        mostrarToast(
+            "No se pudieron cargar los pagos",
+            "error"
+        );
+
+    });
+
 }
 
 function eliminarPago(id) {
-    fetch(`${API_PAGOS}/${id}`, {method: "DELETE"})
-        .then(() => {
-            mostrarToast("Pago eliminado", "success");
-            listarPagos();
+
+    Swal.fire({
+        title: "¿Eliminar pago?",
+        text: "Esta acción no se puede deshacer",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#dc2626",
+        cancelButtonColor: "#6b7280",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    })
+
+        .then((result) => {
+
+            if (result.isConfirmed) {
+
+                fetch(`${API_PAGOS}/${id}`, {
+                    method: "DELETE"
+                })
+
+                    .then(() => {
+
+                        mostrarToast(
+                            "Pago eliminado correctamente",
+                            "success"
+                        );
+
+                        listarPagos();
+
+                    })
+
+                    .catch(() => {
+
+                        mostrarToast(
+                            "No se pudo eliminar el pago",
+                            "error"
+                        );
+
+                    });
+
+            }
+
         });
+
 }
 
 function limpiarFormulario() {
@@ -102,14 +195,21 @@ function limpiarFormulario() {
     document.getElementById("referencia").value = "";
 }
 
-function mostrarToast(mensaje, tipo = "success") {
-    const toast = document.getElementById("toast");
-    toast.textContent = mensaje;
-    toast.className = "toast show " + tipo;
+function mostrarToast(
+    mensaje,
+    icono = "success"
+) {
 
-    setTimeout(() => {
-        toast.className = "toast";
-    }, 3000);
+    Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: icono,
+        title: mensaje,
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true
+    });
+
 }
 function rellenarMontoFactura() {
     const idFactura = document.getElementById("idFactura").value;

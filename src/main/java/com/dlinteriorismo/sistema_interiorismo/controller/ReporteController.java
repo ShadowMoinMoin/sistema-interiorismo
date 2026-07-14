@@ -1,18 +1,14 @@
 package com.dlinteriorismo.sistema_interiorismo.controller;
+
 import com.dlinteriorismo.sistema_interiorismo.model.Cliente;
-import com.dlinteriorismo.sistema_interiorismo.model.Cotizacion;
 import com.dlinteriorismo.sistema_interiorismo.model.Empleado;
-import com.dlinteriorismo.sistema_interiorismo.model.Factura;
-import com.dlinteriorismo.sistema_interiorismo.model.Pago;
-import com.dlinteriorismo.sistema_interiorismo.model.Proyecto;
-import com.dlinteriorismo.sistema_interiorismo.model.Tarea;
 import com.dlinteriorismo.sistema_interiorismo.repository.ClienteRepository;
-import com.dlinteriorismo.sistema_interiorismo.repository.CotizacionRepository;
 import com.dlinteriorismo.sistema_interiorismo.repository.EmpleadoRepository;
+import com.dlinteriorismo.sistema_interiorismo.repository.CotizacionRepository;
 import com.dlinteriorismo.sistema_interiorismo.repository.FacturaRepository;
 import com.dlinteriorismo.sistema_interiorismo.repository.PagoRepository;
-import com.dlinteriorismo.sistema_interiorismo.repository.ProyectoRepository;
 import com.dlinteriorismo.sistema_interiorismo.repository.TareaRepository;
+import com.dlinteriorismo.sistema_interiorismo.repository.ProyectoRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -64,7 +60,7 @@ public class ReporteController {
         Sheet sheet = workbook.createSheet("Clientes");
 
         Row header = sheet.createRow(0);
-        String[] columnas = { "ID", "Nombre", "DNI", "Teléfono", "Correo", "Dirección" };
+        String[] columnas = {"ID", "Nombre", "DNI", "Teléfono", "Correo", "Dirección"};
 
         for (int i = 0; i < columnas.length; i++) {
             Cell cell = header.createCell(i);
@@ -104,7 +100,7 @@ public class ReporteController {
         Sheet sheet = workbook.createSheet("Empleados");
 
         Row header = sheet.createRow(0);
-        String[] columnas = { "ID", "Nombre", "Cargo", "Teléfono", "Correo" };
+        String[] columnas = {"ID", "Nombre", "Cargo", "Teléfono", "Correo"};
 
         for (int i = 0; i < columnas.length; i++) {
             Cell cell = header.createCell(i);
@@ -130,79 +126,61 @@ public class ReporteController {
         workbook.write(response.getOutputStream());
         workbook.close();
     }
-
     @GetMapping("/proyectos-excel")
     public void exportarProyectosExcel(HttpServletResponse response) throws IOException {
 
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename=proyectos.xlsx");
 
-        List<Proyecto> proyectos = proyectoRepository.findAll();
-
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Proyectos");
 
-        Row header = sheet.createRow(0);
-
         String[] columnas = {
                 "ID",
-                "ID Cliente",
-                "ID Tipo",
-                "Nombre Proyecto",
-                "Fecha Inicio",
-                "Fecha Fin",
-                "Estado",
-                "Descripción"
+                "Proyecto",
+                "Cliente",
+                "Tipo",
+                "Inicio",
+                "Fin",
+                "Estado"
         };
 
+        Row header = sheet.createRow(0);
+
         for (int i = 0; i < columnas.length; i++) {
-            Cell cell = header.createCell(i);
-            cell.setCellValue(columnas[i]);
+            header.createCell(i).setCellValue(columnas[i]);
         }
 
         int fila = 1;
 
-        for (Proyecto p : proyectos) {
+        for (var p : proyectoRepository.findAll()) {
 
             Row row = sheet.createRow(fila++);
 
             row.createCell(0).setCellValue(p.getIdProyecto());
-            row.createCell(1).setCellValue(p.getIdCliente());
-            row.createCell(2).setCellValue(p.getIdTipo());
-            row.createCell(3).setCellValue(p.getNombreProyecto());
-            row.createCell(4).setCellValue(
-                    p.getFechaInicio() != null ? p.getFechaInicio().toString() : "");
-            row.createCell(5).setCellValue(
-                    p.getFechaFin() != null ? p.getFechaFin().toString() : "");
+            row.createCell(1).setCellValue(p.getNombreProyecto());
+            row.createCell(2).setCellValue(p.getCliente().getNombre());
+            row.createCell(3).setCellValue(p.getTipoProyecto().getNombreTipo());
+            row.createCell(4).setCellValue(String.valueOf(p.getFechaInicio()));
+            row.createCell(5).setCellValue(String.valueOf(p.getFechaFin()));
             row.createCell(6).setCellValue(p.getEstado());
-            row.createCell(7).setCellValue(p.getDescripcion());
-        }
-
-        for (int i = 0; i < columnas.length; i++) {
-            sheet.autoSizeColumn(i);
         }
 
         workbook.write(response.getOutputStream());
         workbook.close();
     }
-
     @GetMapping("/cotizaciones-excel")
     public void exportarCotizacionesExcel(HttpServletResponse response) throws IOException {
 
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename=cotizaciones.xlsx");
 
-        List<Cotizacion> cotizaciones = cotizacionRepository.findAll();
-
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Cotizaciones");
 
-        Row header = sheet.createRow(0);
-
         String[] columnas = {
                 "ID",
-                "ID Proyecto",
-                "ID Usuario",
+                "Proyecto",
                 "Fecha",
                 "Metraje",
                 "Subtotal",
@@ -211,167 +189,138 @@ public class ReporteController {
                 "Estado"
         };
 
+        Row header = sheet.createRow(0);
+
         for (int i = 0; i < columnas.length; i++) {
-            Cell cell = header.createCell(i);
-            cell.setCellValue(columnas[i]);
+            header.createCell(i).setCellValue(columnas[i]);
         }
 
         int fila = 1;
 
-        for (Cotizacion c : cotizaciones) {
+        for (var c : cotizacionRepository.findAll()) {
 
             Row row = sheet.createRow(fila++);
 
             row.createCell(0).setCellValue(c.getIdCotizacion());
             row.createCell(1).setCellValue(c.getIdProyecto());
-            row.createCell(2).setCellValue(c.getIdUsuario());
-            row.createCell(3).setCellValue(
-                    c.getFecha() != null ? c.getFecha().toString() : "");
-            row.createCell(4).setCellValue(c.getMetraje().doubleValue());
-            row.createCell(5).setCellValue(c.getSubtotal().doubleValue());
-            row.createCell(6).setCellValue(c.getGanancia().doubleValue());
-            row.createCell(7).setCellValue(c.getTotal().doubleValue());
-            row.createCell(8).setCellValue(c.getEstado());
-        }
-
-        for (int i = 0; i < columnas.length; i++) {
-            sheet.autoSizeColumn(i);
+            row.createCell(2).setCellValue(String.valueOf(c.getFecha()));
+            row.createCell(3).setCellValue(c.getMetraje().doubleValue());
+            row.createCell(4).setCellValue(c.getSubtotal().doubleValue());
+            row.createCell(5).setCellValue(c.getGanancia().doubleValue());
+            row.createCell(6).setCellValue(c.getTotal().doubleValue());
+            row.createCell(7).setCellValue(c.getEstado());
         }
 
         workbook.write(response.getOutputStream());
         workbook.close();
     }
-
     @GetMapping("/facturas-excel")
     public void exportarFacturasExcel(HttpServletResponse response) throws IOException {
 
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename=facturas.xlsx");
 
-        List<Factura> facturas = facturaRepository.findAll();
-
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Facturas");
 
-        Row header = sheet.createRow(0);
-
         String[] columnas = {
                 "ID",
-                "ID Cotización",
-                "Número Factura",
+                "Número",
                 "Fecha",
                 "Total",
                 "Estado"
         };
 
+        Row header = sheet.createRow(0);
+
         for (int i = 0; i < columnas.length; i++) {
-            Cell cell = header.createCell(i);
-            cell.setCellValue(columnas[i]);
+            header.createCell(i).setCellValue(columnas[i]);
         }
 
         int fila = 1;
 
-        for (Factura f : facturas) {
+        for (var f : facturaRepository.findAll()) {
 
             Row row = sheet.createRow(fila++);
 
             row.createCell(0).setCellValue(f.getIdFactura());
-            row.createCell(1).setCellValue(f.getIdCotizacion());
-            row.createCell(2).setCellValue(f.getNumeroFactura());
-            row.createCell(3).setCellValue(
-                    f.getFecha() != null ? f.getFecha().toString() : "");
-            row.createCell(4).setCellValue(f.getTotal().doubleValue());
-            row.createCell(5).setCellValue(f.getEstado());
-        }
-
-        for (int i = 0; i < columnas.length; i++) {
-            sheet.autoSizeColumn(i);
+            row.createCell(1).setCellValue(f.getNumeroFactura());
+            row.createCell(2).setCellValue(String.valueOf(f.getFecha()));
+            row.createCell(3).setCellValue(f.getTotal().doubleValue());
+            row.createCell(4).setCellValue(f.getEstado());
         }
 
         workbook.write(response.getOutputStream());
         workbook.close();
     }
-
     @GetMapping("/pagos-excel")
     public void exportarPagosExcel(HttpServletResponse response) throws IOException {
 
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename=pagos.xlsx");
 
-        List<Pago> pagos = pagoRepository.findAll();
-
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Pagos");
 
-        Row header = sheet.createRow(0);
-
         String[] columnas = {
                 "ID",
-                "ID Factura",
-                "Fecha Pago",
-                "Método Pago",
+                "Factura",
+                "Fecha",
+                "Método",
                 "Monto",
                 "Referencia"
         };
 
+        Row header = sheet.createRow(0);
+
         for (int i = 0; i < columnas.length; i++) {
-            Cell cell = header.createCell(i);
-            cell.setCellValue(columnas[i]);
+            header.createCell(i).setCellValue(columnas[i]);
         }
 
         int fila = 1;
 
-        for (Pago p : pagos) {
+        for (var p : pagoRepository.findAll()) {
 
             Row row = sheet.createRow(fila++);
 
             row.createCell(0).setCellValue(p.getIdPago());
             row.createCell(1).setCellValue(p.getIdFactura());
-            row.createCell(2).setCellValue(
-                    p.getFechaPago() != null ? p.getFechaPago().toString() : "");
+            row.createCell(2).setCellValue(String.valueOf(p.getFechaPago()));
             row.createCell(3).setCellValue(p.getMetodoPago());
             row.createCell(4).setCellValue(p.getMonto().doubleValue());
             row.createCell(5).setCellValue(p.getReferencia());
         }
 
-        for (int i = 0; i < columnas.length; i++) {
-            sheet.autoSizeColumn(i);
-        }
-
         workbook.write(response.getOutputStream());
         workbook.close();
     }
-
     @GetMapping("/tareas-excel")
     public void exportarTareasExcel(HttpServletResponse response) throws IOException {
 
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename=tareas.xlsx");
 
-        List<Tarea> tareas = tareaRepository.findAll();
-
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Tareas");
 
-        Row header = sheet.createRow(0);
-
         String[] columnas = {
                 "ID",
-                "ID Proyecto",
-                "ID Empleado",
+                "Proyecto",
+                "Empleado",
                 "Descripción",
                 "Fecha Límite",
                 "Estado"
         };
 
+        Row header = sheet.createRow(0);
+
         for (int i = 0; i < columnas.length; i++) {
-            Cell cell = header.createCell(i);
-            cell.setCellValue(columnas[i]);
+            header.createCell(i).setCellValue(columnas[i]);
         }
 
         int fila = 1;
 
-        for (Tarea t : tareas) {
+        for (var t : tareaRepository.findAll()) {
 
             Row row = sheet.createRow(fila++);
 
@@ -379,13 +328,8 @@ public class ReporteController {
             row.createCell(1).setCellValue(t.getIdProyecto());
             row.createCell(2).setCellValue(t.getIdEmpleado());
             row.createCell(3).setCellValue(t.getDescripcion());
-            row.createCell(4).setCellValue(
-                    t.getFechaLimite() != null ? t.getFechaLimite().toString() : "");
+            row.createCell(4).setCellValue(String.valueOf(t.getFechaLimite()));
             row.createCell(5).setCellValue(t.getEstado());
-        }
-
-        for (int i = 0; i < columnas.length; i++) {
-            sheet.autoSizeColumn(i);
         }
 
         workbook.write(response.getOutputStream());

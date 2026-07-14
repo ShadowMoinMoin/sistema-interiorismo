@@ -1,0 +1,249 @@
+/* ================= RESET ================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter','Segoe UI',sans-serif;
+    background:#f8fafc;
+    color:#1e293b;
+    height:100vh;
+    overflow:hidden;
+}
+
+/* ================= APP ================= */
+
+.app{
+    display:flex;
+    width:100%;
+    height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:200px;
+    height:100vh;
+    background:linear-gradient(180deg,#07152d,#020817);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:20px 12px;
+    box-sizing:border-box;
+}
+/* LOGO */
+
+.logo{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:120px;
+    margin-bottom:25px;
+}
+
+.logo img{
+    width:190px;
+    height:190px;
+    object-fit:contain;
+}
+.logo{
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    padding-bottom:20px;
+    margin-bottom:30px;
+}
+
+/* MENU */
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    height:100%;
+}
+
+.menu-top{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    color:#e2e8f0;
+    text-decoration:none;
+
+    padding:12px 14px;
+    border-radius:10px;
+
+    font-size:13px;
+    font-weight:400;
+
+    transition:all .25s ease;
+}
+
+.menu a:hover{
+    background:rgba(59,130,246,.15);
+    color:white;
+}
+
+.menu a.active{
+    background:#2563eb;
+    color:white;
+    box-shadow:0 0 20px rgba(37,99,235,.45);
+}
+
+/* BLOQUE SUPERIOR */
+
+.menu-top{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+/* CERRAR SESION */
+
+.menu-bottom{
+    margin-top:auto;
+    padding-top:20px;
+}
+
+.menu-bottom a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    color:#e2e8f0;
+    text-decoration:none;
+
+    padding:12px 14px;
+    border-radius:10px;
+
+    font-size:13px;
+    font-weight:400;
+}
+
+.menu-bottom a:hover{
+    background:rgba(239,68,68,.15);
+    color:#ef4444;
+}
+
+/* ================= TOPBAR ================= */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:25px;
+}
+
+.topbar h1{
+    font-size:18px;
+    font-weight:700;
+    color:#0f172a;
+}
+
+/* ================= BOX GENERAL ================= */
+
+.box{
+    background:white;
+
+    border-radius:18px;
+
+    padding:20px;
+
+    box-shadow:
+            0 4px 15px
+            rgba(0,0,0,.05);
+}
+
+/* ================= TABLAS ================= */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    text-align:left;
+
+    background:#f1f5f9;
+
+    color:#334155;
+
+    padding:12px;
+
+    font-size:14px;
+}
+
+td{
+    padding:12px;
+
+    border-bottom:
+            1px solid #e2e8f0;
+}
+
+tr:hover td{
+    background:#f8fafc;
+}
+
+/* ================= BOTONES ================= */
+
+.btn{
+    padding:10px 15px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+}
+
+.btn-primary{
+    background:#2563eb;
+    color:white;
+}
+
+.btn-success{
+    background:#16a34a;
+    color:white;
+}
+
+.btn-danger{
+    background:#dc2626;
+    color:white;
+}
+
+/* ================= INPUTS ================= */
+
+input,
+select{
+    padding:10px;
+    border-radius:10px;
+    border:1px solid #cbd5e1;
+}
+
+input:focus,
+select:focus{
+    outline:none;
+
+    border-color:#3b82f6;
+
+    box-shadow:
+            0 0 0 3px
+            rgba(59,130,246,.2);
+}
+.menu i{
+    font-size:16px;
+    width:18px;
+}
+
+.usuario i{
+    margin-right:8px;
+    color:#2563eb;
+}

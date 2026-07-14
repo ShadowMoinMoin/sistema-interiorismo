@@ -47,10 +47,17 @@ public class ClienteService {
             throw new RuntimeException("El teléfono debe tener 9 dígitos");
         }
 
-        if (StringUtils.isNotBlank(cliente.getCorreo()) &&
-                !EmailValidator.getInstance().isValid(cliente.getCorreo())) {
-            logger.warn("Correo inválido: {}", cliente.getCorreo());
-            throw new RuntimeException("Correo inválido");
+        if (StringUtils.isNotBlank(cliente.getCorreo())) {
+
+            if (!EmailValidator.getInstance().isValid(cliente.getCorreo())) {
+                logger.warn("Correo inválido: {}", cliente.getCorreo());
+                throw new RuntimeException("Formato de correo inválido");
+            }
+
+            if (!cliente.getCorreo().toLowerCase().endsWith("@gmail.com")) {
+                logger.warn("Correo no permitido: {}", cliente.getCorreo());
+                throw new RuntimeException("El correo debe terminar en @gmail.com");
+            }
         }
 
         logger.info("Cliente registrado correctamente: {}", cliente.getNombre());

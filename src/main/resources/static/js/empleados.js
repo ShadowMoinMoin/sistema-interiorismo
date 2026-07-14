@@ -1,14 +1,17 @@
 const API_EMPLEADOS = "/api/empleados";
 
 document.addEventListener("DOMContentLoaded", () => {
+
     listarEmpleados();
 
     document.getElementById("telefono").addEventListener("input", function () {
         this.value = this.value.replace(/\D/g, "").slice(0, 9);
     });
+
 });
 
 function guardarEmpleado() {
+
     const empleado = {
         nombre: document.getElementById("nombre").value.trim(),
         cargo: document.getElementById("cargo").value.trim(),
@@ -16,13 +19,38 @@ function guardarEmpleado() {
         correo: document.getElementById("correo").value.trim()
     };
 
-    if (empleado.nombre === "" || empleado.cargo === "") {
-        mostrarToast("Complete nombre y cargo", "warning");
+    // VALIDACIONES
+
+    if (
+        empleado.nombre === "" ||
+        empleado.cargo === ""
+    ) {
+
+        mostrarToast(
+            "Complete nombre y cargo",
+            "warning"
+        );
+
+        return;
+    }
+
+    if (empleado.telefono === "") {
+
+        mostrarToast(
+            "Ingrese el teléfono",
+            "warning"
+        );
+
         return;
     }
 
     if (empleado.telefono.length !== 9) {
-        mostrarToast("El teléfono debe tener exactamente 9 dígitos", "warning");
+
+        mostrarToast(
+            "El teléfono debe tener exactamente 9 dígitos",
+            "warning"
+        );
+
         return;
     }
 
@@ -33,73 +61,166 @@ function guardarEmpleado() {
         },
         body: JSON.stringify(empleado)
     })
+
         .then(response => {
+
             if (!response.ok) {
-                return response.text().then(text => {
-                    throw new Error(text);
-                });
+                throw new Error(
+                    "Error HTTP " + response.status
+                );
             }
-            return response.json();
+
+            return response.text();
         })
+
         .then(() => {
-            mostrarToast("Empleado registrado correctamente", "success");
+
+            mostrarToast(
+                "Empleado registrado correctamente",
+                "success"
+            );
+
             limpiarFormulario();
+
             listarEmpleados();
+
         })
+
         .catch(error => {
-            console.error("Error:", error);
-            mostrarToast("No se pudo guardar el empleado", "error");
+
+            console.error(error);
+
+            mostrarToast(
+                "No se pudo guardar el empleado",
+                "error"
+            );
+
         });
+
 }
 
 function listarEmpleados() {
+
     fetch(API_EMPLEADOS)
+
         .then(response => response.json())
+
         .then(data => {
-            const tabla = document.getElementById("tablaEmpleados");
+
+            const tabla =
+                document.getElementById("tablaEmpleados");
+
             tabla.innerHTML = "";
 
             data.forEach(empleado => {
+
                 tabla.innerHTML += `
-                    <tr>
-                        <td>${empleado.idEmpleado}</td>
-                        <td>${empleado.nombre}</td>
-                        <td>${empleado.cargo}</td>
-                        <td>${empleado.telefono}</td>
-                        <td>${empleado.correo || ""}</td>
-                        <td>
-                            <button onclick="eliminarEmpleado(${empleado.idEmpleado})">Eliminar</button>
-                        </td>
-                    </tr>
-                `;
+                <tr>
+
+                    <td>${empleado.nombre}</td>
+
+                    <td>${empleado.cargo}</td>
+
+                    <td>${empleado.telefono}</td>
+
+                    <td>${empleado.correo || ""}</td>
+
+                    <td>
+                        <button
+                            class="btn-eliminar"
+                            onclick="eliminarEmpleado(${empleado.idEmpleado})">
+                            Eliminar
+                        </button>
+                    </td>
+
+                </tr>
+            `;
             });
+
+        })
+
+        .catch(error => {
+
+            console.error(error);
+
+            mostrarToast(
+                "No se pudieron cargar los empleados",
+                "error"
+            );
+
         });
+
 }
 
 function eliminarEmpleado(id) {
-    fetch(`${API_EMPLEADOS}/${id}`, {
-        method: "DELETE"
+
+    Swal.fire({
+        title: "¿Eliminar empleado?",
+        text: "Esta acción no se puede deshacer",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#dc2626",
+        cancelButtonColor: "#6b7280",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
     })
-        .then(() => {
-            mostrarToast("Empleado eliminado correctamente", "success");
-            listarEmpleados();
+
+        .then((result) => {
+
+            if (result.isConfirmed) {
+
+                fetch(`${API_EMPLEADOS}/${id}`, {
+                    method: "DELETE"
+                })
+
+                    .then(() => {
+
+                        mostrarToast(
+                            "Empleado eliminado correctamente",
+                            "success"
+                        );
+
+                        listarEmpleados();
+
+                    })
+
+                    .catch(() => {
+
+                        mostrarToast(
+                            "No se pudo eliminar el empleado",
+                            "error"
+                        );
+
+                    });
+
+            }
+
         });
+
 }
 
 function limpiarFormulario() {
+
     document.getElementById("nombre").value = "";
     document.getElementById("cargo").value = "";
     document.getElementById("telefono").value = "";
     document.getElementById("correo").value = "";
+
 }
 
-function mostrarToast(mensaje, tipo = "success") {
-    const toast = document.getElementById("toast");
+function mostrarToast(
+    mensaje,
+    icono = "success"
+) {
 
-    toast.textContent = mensaje;
-    toast.className = "toast show " + tipo;
+    Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: icono,
+        title: mensaje,
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true
+    });
 
-    setTimeout(() => {
-        toast.className = "toast";
-    }, 3000);
 }
