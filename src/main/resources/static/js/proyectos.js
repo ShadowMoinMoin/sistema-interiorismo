@@ -44,6 +44,7 @@ function cargarTiposProyecto() {
 
 function guardarProyecto() {
     const proyecto = {
+<<<<<<< HEAD
 
         cliente: {
             idCliente: document.getElementById("idCliente").value
@@ -73,11 +74,51 @@ function guardarProyecto() {
         proyecto.tipoProyecto.idTipo === "" ||
         proyecto.nombreProyecto === "") {
         mostrarToast("Complete cliente, tipo y nombre del proyecto", "warning");
+=======
+        cliente: { idCliente: Number(document.getElementById("idCliente").value) },
+        tipoProyecto: { idTipo: Number(document.getElementById("idTipo").value) },
+        nombreProyecto: document.getElementById("nombreProyecto").value.trim(),
+        fechaInicio: document.getElementById("fechaInicio").value,
+        fechaFin: document.getElementById("fechaFin").value,
+        estado: document.getElementById("estado").value,
+        descripcion: document.getElementById("descripcion").value.trim()
+    };
+    if (!proyecto.cliente.idCliente ||
+        !proyecto.tipoProyecto.idTipo ||
+        proyecto.nombreProyecto === "") {
+        mostrarToast(
+            "Complete cliente, tipo y nombre del proyecto",
+            "warning"
+        );
+        return;
+    }
+    if (proyecto.fechaInicio === "") {
+        mostrarToast(
+            "Seleccione la fecha de inicio",
+            "warning"
+        );
+        return;
+    }
+    if (proyecto.estado === "") {
+        mostrarToast(
+            "Seleccione el estado del proyecto",
+            "warning"
+        );
+        return;
+    }
+    if (proyecto.fechaFin !== "" &&
+        proyecto.fechaFin < proyecto.fechaInicio) {
+        mostrarToast(
+            "La fecha fin no puede ser menor a la fecha inicio",
+            "warning"
+        );
+>>>>>>> master
         return;
     }
     console.log(proyecto);
     fetch(API_PROYECTOS, {
         method: "POST",
+<<<<<<< HEAD
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(proyecto)
     })
@@ -122,6 +163,34 @@ function guardarProyecto() {
 
         return;
     }
+=======
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(proyecto)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error al guardar proyecto");
+            }
+            return response.json();
+        })
+        .then(() => {
+            mostrarToast(
+                "Proyecto registrado correctamente",
+                "success"
+            );
+            limpiarFormulario();
+            listarProyectos();
+        })
+        .catch(error => {
+            console.error(error);
+            mostrarToast(
+                "No se pudo guardar el proyecto",
+                "error"
+            );
+        });
+>>>>>>> master
 }
 
 function listarProyectos() {

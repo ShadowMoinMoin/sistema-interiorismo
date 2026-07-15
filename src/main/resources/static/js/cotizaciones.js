@@ -112,6 +112,7 @@ function calcularDetalle() {
 }
 
 function guardarCotizacion() {
+<<<<<<< HEAD
     const cotizacion = {
         idProyecto: document.getElementById("idProyecto").value,
         idUsuario: 1,
@@ -142,28 +143,164 @@ function guardarCotizacion() {
             listarCotizaciones();
         })
         .catch(() => mostrarToast("No se pudo guardar la cotización", "error"));
+=======
+
+    const boton =
+        document.getElementById("btnGuardarCotizacion");
+
+    boton.disabled = true;
+
+    boton.textContent = "Guardando...";
+
+
+    const cotizacion = {
+
+        idProyecto:
+            document.getElementById("idProyecto").value,
+
+        idUsuario: 1,
+
+        metraje:
+            document.getElementById("metraje").value,
+
+        estado: "Pendiente"
+
+    };
+
+
+>>>>>>> master
     if (
         cotizacion.idProyecto === "" ||
         cotizacion.metraje === ""
     ) {
 
+<<<<<<< HEAD
+=======
+        boton.disabled = false;
+
+        boton.textContent =
+            "Guardar Cotización";
+
+
+>>>>>>> master
         mostrarToast(
             "Seleccione proyecto e ingrese metraje",
             "warning"
         );
 
         return;
+<<<<<<< HEAD
     }
 
     if (Number(cotizacion.metraje) <= 0) {
 
+=======
+
+    }
+
+
+    if (Number(cotizacion.metraje) <= 0) {
+
+        boton.disabled = false;
+
+        boton.textContent =
+            "Guardar Cotización";
+
+
+>>>>>>> master
         mostrarToast(
             "El metraje debe ser mayor a 0",
             "warning"
         );
 
         return;
+<<<<<<< HEAD
     }
+=======
+
+    }
+
+
+    fetch(API_COTIZACIONES, {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(cotizacion)
+
+    })
+
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Error al guardar"
+                );
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(() => {
+
+            mostrarToast(
+                "Cotización registrada correctamente",
+                "success"
+            );
+
+
+            document.getElementById(
+                "idProyecto"
+            ).value = "";
+
+
+            document.getElementById(
+                "metraje"
+            ).value = "";
+
+
+            document.getElementById(
+                "tablaDetalle"
+            ).innerHTML =
+                `<tr>
+                    <td colspan="5">
+                        Ingrese el metraje para calcular.
+                    </td>
+                </tr>`;
+
+
+            boton.disabled = false;
+
+            boton.textContent =
+                "Guardar Cotización";
+
+
+            listarCotizaciones();
+
+        })
+
+        .catch(() => {
+
+            boton.disabled = false;
+
+            boton.textContent =
+                "Guardar Cotización";
+
+
+            mostrarToast(
+                "No se pudo guardar la cotización",
+                "error"
+            );
+
+        });
+
+>>>>>>> master
 }
 
 function listarCotizaciones() {

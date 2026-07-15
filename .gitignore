@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 HELP.md
+=======
+# Maven
+>>>>>>> master
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+<<<<<<< HEAD
 ### STS ###
 .apt_generated
 .classpath
@@ -20,6 +25,24 @@ target/
 *.ipr
 
 ### NetBeans ###
+=======
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse / STS
+.apt_generated/
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache/
+
+# NetBeans
+>>>>>>> master
 /nbproject/private/
 /nbbuild/
 /dist/
@@ -29,6 +52,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+<<<<<<< HEAD
 ### VS Code ###
 .vscode/
 target/
@@ -36,3 +60,14 @@ target/
 *.iml
 .env
 application-local.properties
+=======
+# VS Code
+.vscode/
+
+# Archivos locales
+.env
+application-local.properties
+
+# Documentación opcional
+HELP.md
+>>>>>>> master
