@@ -1,9 +1,48 @@
+const TIEMPO_MAXIMO_RESPUESTA = 1;
+async function fetchMonitoreado(url) {
+
+    const inicio = performance.now();
+
+    try {
+
+        const response = await fetchMonitoreado(url);
+
+        const fin = performance.now();
+
+        const tiempoRespuesta = fin - inicio;
+
+        console.log(
+            `Solicitud: ${url} | Tiempo de respuesta: ${tiempoRespuesta.toFixed(2)} ms`
+        );
+
+        if (tiempoRespuesta > TIEMPO_MAXIMO_RESPUESTA) {
+
+            console.warn(
+                `ADVERTENCIA: La solicitud ${url} presenta un tiempo de respuesta elevado`
+            );
+
+        }
+
+        return response;
+
+    } catch (error) {
+
+        console.error(
+            `Error durante la solicitud ${url}`,
+            error
+        );
+
+        throw error;
+
+    }
+
+}
 async function cargarDashboard() {
 
     try {
 
         const response =
-            await fetch("/api/dashboard");
+            await fetchMonitoreado("/api/dashboard");
 
         const data =
             await response.json();
@@ -22,7 +61,7 @@ async function cargarDashboard() {
 
         crearDonut(data);
 
-    } catch(error) {
+    } catch (error) {
 
         console.error(error);
 
@@ -34,7 +73,7 @@ async function cargarProyectos() {
     try {
 
         const response =
-            await fetch("/api/dashboard/proyectos");
+            await fetchMonitoreado("/api/dashboard/proyectos");
 
         const proyectos =
             await response.json();
@@ -56,7 +95,7 @@ async function cargarProyectos() {
         document.getElementById("tablaProyectos")
             .innerHTML = html;
 
-    } catch(error){
+    } catch (error) {
 
         console.error(error);
 
@@ -93,7 +132,7 @@ async function cargarTareas() {
         document.getElementById("listaTareas")
             .innerHTML = html;
 
-    } catch(error){
+    } catch (error) {
 
         console.error(error);
 
@@ -101,7 +140,7 @@ async function cargarTareas() {
 
 }
 
-function crearDonut(data){
+function crearDonut(data) {
 
     const total =
         data.proyectosPendientes +
@@ -112,9 +151,9 @@ function crearDonut(data){
     const centerText = {
         id: 'centerText',
 
-        afterDraw(chart){
+        afterDraw(chart) {
 
-            const {ctx} = chart;
+            const { ctx } = chart;
 
             ctx.save();
 
@@ -169,7 +208,7 @@ function crearDonut(data){
 
                     ],
 
-                    borderWidth:0
+                    borderWidth: 0
 
                 }]
             },
@@ -186,12 +225,12 @@ function crearDonut(data){
 
                 },
 
-                maintainAspectRatio:false,
-                responsive:true
+                maintainAspectRatio: false,
+                responsive: true
 
             },
 
-            plugins:[centerText]
+            plugins: [centerText]
 
         }
     );
