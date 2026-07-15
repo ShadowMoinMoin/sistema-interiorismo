@@ -112,40 +112,40 @@ function calcularDetalle() {
 }
 
 function guardarCotizacion() {
+
+    const boton =
+        document.getElementById("btnGuardarCotizacion");
+
+    boton.disabled = true;
+
+    boton.textContent = "Guardando...";
+
+
     const cotizacion = {
-        idProyecto: document.getElementById("idProyecto").value,
+
+        idProyecto:
+            document.getElementById("idProyecto").value,
+
         idUsuario: 1,
-        metraje: document.getElementById("metraje").value,
+
+        metraje:
+            document.getElementById("metraje").value,
+
         estado: "Pendiente"
+
     };
 
-    if (cotizacion.idProyecto === "" || cotizacion.metraje === "") {
-        mostrarToast("Seleccione proyecto e ingrese metraje", "warning");
-        return;
-    }
 
-    fetch(API_COTIZACIONES, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(cotizacion)
-    })
-        .then(response => {
-            if (!response.ok) throw new Error("Error al guardar");
-            return response.json();
-        })
-        .then(() => {
-            mostrarToast("Cotización registrada correctamente", "success");
-            document.getElementById("idProyecto").value = "";
-            document.getElementById("metraje").value = "";
-            document.getElementById("tablaDetalle").innerHTML =
-                `<tr><td colspan="5">Ingrese el metraje para calcular.</td></tr>`;
-            listarCotizaciones();
-        })
-        .catch(() => mostrarToast("No se pudo guardar la cotización", "error"));
     if (
         cotizacion.idProyecto === "" ||
         cotizacion.metraje === ""
     ) {
+
+        boton.disabled = false;
+
+        boton.textContent =
+            "Guardar Cotización";
+
 
         mostrarToast(
             "Seleccione proyecto e ingrese metraje",
@@ -153,9 +153,17 @@ function guardarCotizacion() {
         );
 
         return;
+
     }
 
+
     if (Number(cotizacion.metraje) <= 0) {
+
+        boton.disabled = false;
+
+        boton.textContent =
+            "Guardar Cotización";
+
 
         mostrarToast(
             "El metraje debe ser mayor a 0",
@@ -163,7 +171,89 @@ function guardarCotizacion() {
         );
 
         return;
+
     }
+
+
+    fetch(API_COTIZACIONES, {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(cotizacion)
+
+    })
+
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Error al guardar"
+                );
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(() => {
+
+            mostrarToast(
+                "Cotización registrada correctamente",
+                "success"
+            );
+
+
+            document.getElementById(
+                "idProyecto"
+            ).value = "";
+
+
+            document.getElementById(
+                "metraje"
+            ).value = "";
+
+
+            document.getElementById(
+                "tablaDetalle"
+            ).innerHTML =
+                `<tr>
+                    <td colspan="5">
+                        Ingrese el metraje para calcular.
+                    </td>
+                </tr>`;
+
+
+            boton.disabled = false;
+
+            boton.textContent =
+                "Guardar Cotización";
+
+
+            listarCotizaciones();
+
+        })
+
+        .catch(() => {
+
+            boton.disabled = false;
+
+            boton.textContent =
+                "Guardar Cotización";
+
+
+            mostrarToast(
+                "No se pudo guardar la cotización",
+                "error"
+            );
+
+        });
+
 }
 
 function listarCotizaciones() {
