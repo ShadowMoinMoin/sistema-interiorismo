@@ -1,5 +1,6 @@
 package com.dlinteriorismo.sistema_interiorismo.controller;
 
+import com.dlinteriorismo.sistema_interiorismo.dto.ClienteDTO;
 import com.dlinteriorismo.sistema_interiorismo.model.Cliente;
 import com.dlinteriorismo.sistema_interiorismo.service.ClienteService;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +24,8 @@ public class ClienteController {
     }
 
     @PostMapping
-    public Cliente guardar(@RequestBody Cliente cliente) {
-        return clienteService.guardar(cliente);
+    public Cliente guardar(@RequestBody ClienteDTO clienteDTO) {
+        return clienteService.guardar(clienteDTO);
     }
 
     @DeleteMapping("/{id}")
